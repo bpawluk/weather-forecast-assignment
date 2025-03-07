@@ -1,4 +1,11 @@
+using WeatherAssignment.Application.Queries.GetForecast;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMediatR(config =>
+{
+    config.RegisterServicesFromAssembly(typeof(GetForecastQuery).Assembly);
+});
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
