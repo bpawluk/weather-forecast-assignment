@@ -1,6 +1,6 @@
 ﻿namespace WeatherAssignment.Core.Values;
 
-public readonly struct Coordinates
+public record Coordinates
 {
     private const int Precision = 2;
 
@@ -9,9 +9,11 @@ public readonly struct Coordinates
     private const decimal MinLongitude = -180m;
     private const decimal MaxLongitude = 180m;
 
-    public decimal Latitude { get; }
+    public decimal Latitude { get; private set; }
 
-    public decimal Longitude { get; }
+    public decimal Longitude { get; private set; }
+
+    private Coordinates() { }
 
     public Coordinates(decimal latitude, decimal longitude)
     {

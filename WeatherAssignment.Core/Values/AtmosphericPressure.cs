@@ -1,8 +1,10 @@
 ﻿namespace WeatherAssignment.Core.Values;
 
-public readonly struct AtmosphericPressure
+public record AtmosphericPressure
 {
-    public float Value { get; }
+    public float Value { get; private set; }
+
+    private AtmosphericPressure() { }
 
     public AtmosphericPressure(float value)
     {

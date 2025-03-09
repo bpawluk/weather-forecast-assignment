@@ -1,8 +1,10 @@
 ﻿namespace WeatherAssignment.Core.Values;
 
-public readonly struct TemperatureCelsius
+public record TemperatureCelsius
 {
-    public float Value { get; }
+    public float Value { get; private set; }
+
+    private TemperatureCelsius() { }
 
     public TemperatureCelsius(float value)
     {

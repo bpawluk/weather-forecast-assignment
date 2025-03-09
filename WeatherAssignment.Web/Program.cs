@@ -1,6 +1,10 @@
 using WeatherAssignment.Application.Queries.GetForecast;
+using WeatherAssignment.Infrastructure.Extensions;
+using WeatherAssignment.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddInfrastructure();
 
 builder.Services.AddMediatR(config =>
 {
@@ -11,6 +15,12 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    using var context = scope.ServiceProvider.GetRequiredService<WeatherDbContext>();
+    await context.Database.EnsureCreatedAsync();
+}
 
 app.MapOpenApi();
 app.UseSwaggerUI(options => 

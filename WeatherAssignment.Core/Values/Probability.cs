@@ -1,8 +1,10 @@
 ﻿namespace WeatherAssignment.Core.Values;
 
-public readonly struct Probability
+public record Probability
 {
-    public int Value { get; }
+    public int Value { get; private set; }
+
+    private Probability() { }
 
     public Probability(int percentage)
     {
