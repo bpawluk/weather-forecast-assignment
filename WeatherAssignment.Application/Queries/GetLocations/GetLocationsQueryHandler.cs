@@ -2,9 +2,9 @@
 
 namespace WeatherAssignment.Application.Queries.GetLocations;
 
-internal class GetLocationsQueryHandler : IRequestHandler<GetLocationsQuery, GetLocationsQuery.Response>
+internal class GetLocationsQueryHandler : IRequestHandler<GetLocationsQuery, GetLocationsQuery.Result>
 {
-    public Task<GetLocationsQuery.Response> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
+    public Task<GetLocationsQuery.Result> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

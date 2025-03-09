@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WeatherAssignment.Application.Commands.AddLocation;
 using WeatherAssignment.Application.Commands.DeleteLocation;
 using WeatherAssignment.Application.Queries.GetLocations;
-using WeatherAssignment.Web.Controllers.Locations.Model;
+using WeatherAssignment.Web.Controllers.Locations.Data;
 
 namespace WeatherAssignment.Web.Controllers.Locations;
 
@@ -12,13 +12,13 @@ namespace WeatherAssignment.Web.Controllers.Locations;
 public class LocationsController(IMediator mediator) : AppController(mediator)
 {
     [HttpGet]
-    [ProducesResponseType(typeof(Location[]), 200)]
-    public async Task<ActionResult<Location[]>> GetLocationsAsync()
+    [ProducesResponseType(typeof(LocationDto[]), 200)]
+    public async Task<ActionResult<LocationDto[]>> GetLocationsAsync()
     {
         var request = new GetLocationsQuery();
         var response = await _mediator.Send(request);
         var locations = response.Locations
-            .Select(location => new Location(
+            .Select(location => new LocationDto(
                 location.Name, 
                 location.Latitude, 
                 location.Longitude))
@@ -28,7 +28,7 @@ public class LocationsController(IMediator mediator) : AppController(mediator)
 
     [HttpPost]
     [ProducesResponseType(201)]
-    public async Task<IActionResult> AddLocationAsync([FromBody] Location newLocation)
+    public async Task<IActionResult> AddLocationAsync([FromBody] LocationDto newLocation)
     {
         var request = new AddLocationCommand(
             newLocation.Name,
