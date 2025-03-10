@@ -4,5 +4,5 @@ namespace WeatherAssignment.Core.Interface;
 
 public interface IWeatherProvider
 {
-    Task<IReadOnlyList<ForecastValue>> GetWeatherAsync(IReadOnlySet<Coordinates> locationsCoordinates);
+    Task<IReadOnlyDictionary<Coordinates, IReadOnlyList<ForecastValue>>> GetWeatherAsync(IReadOnlySet<Coordinates> locationsCoordinates, CancellationToken cancellationToken);
 }

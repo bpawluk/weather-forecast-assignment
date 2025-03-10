@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WeatherAssignment.Application.Commands.UpdateForecasts;
 using WeatherAssignment.Core;
 using WeatherAssignment.Core.Exceptions;
 using WeatherAssignment.Core.Interface;
@@ -7,9 +8,10 @@ using WeatherAssignment.Core.Values;
 
 namespace WeatherAssignment.Application.Commands.AddLocation;
 
-internal class AddLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<AddLocationCommand>
+internal class AddLocationCommandHandler(IUnitOfWork unitOfWork, IBackgroundMediator mediator) : IRequestHandler<AddLocationCommand>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IBackgroundMediator _mediator = mediator;
 
     public async Task Handle(AddLocationCommand request, CancellationToken cancellationToken)
     {
@@ -36,5 +38,11 @@ internal class AddLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
         forecasts.Add(forecastToAdd);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var locationsToUpdate = new HashSet<UpdateForecastsCommand.Coordinates> 
+        { 
+            new(locationToAdd.Coordinates.Latitude, locationToAdd.Coordinates.Longitude) 
+        };
+        _mediator.Enqueue(new UpdateForecastsCommand(locationsToUpdate));
     }
 }

@@ -12,12 +12,14 @@ internal class GetLocationsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandle
     public async Task<GetLocationsQuery.Result> Handle(GetLocationsQuery request, CancellationToken cancellationToken)
     {
         var locations = _unitOfWork.Set<Location>();
+
         var result = await locations
             .Select(location => new GetLocationsQuery.Location(
                 location.Name, 
                 location.Coordinates.Latitude, 
                 location.Coordinates.Longitude))
             .ToListAsync(cancellationToken);
+
         return new(result);
     }
 }

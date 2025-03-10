@@ -30,14 +30,19 @@ public class WeatherDbContext : DbContext
 
             forecast.OwnsMany(x => x.Values, forecastValue =>
             {
+                forecastValue.HasKey(x => x.Id);
+
                 forecastValue.WithOwner()
                              .HasForeignKey("ForecastId");
 
-                forecastValue.OwnsOne(x => x.Temperature);
+                forecastValue.Property(x => x.Temperature)
+                             .HasConversion(temp => temp.Value, temp => new(temp));
 
-                forecastValue.OwnsOne(x => x.Precipitation);
+                forecastValue.Property(x => x.Precipitation)
+                             .HasConversion(prec => prec.Value, prec => new(prec));
 
-                forecastValue.OwnsOne(x => x.Pressure);
+                forecastValue.Property(x => x.Pressure)
+                             .HasConversion(pres => pres.Value, pres => new(pres));
             });
         });
     }
