@@ -1,4 +1,6 @@
-﻿namespace WeatherAssignment.Core.Values;
+﻿using WeatherAssignment.Core.Exceptions;
+
+namespace WeatherAssignment.Core.Values;
 
 public record TemperatureCelsius
 {
@@ -10,7 +12,7 @@ public record TemperatureCelsius
     {
         if (value < -273.15)
         {
-            throw new Exception("Temperature cannot be below absolute zero (-273.15°C).");
+            throw new ValidationException("Temperature cannot be below absolute zero (-273.15°C).");
         }
         Value = value;
     }

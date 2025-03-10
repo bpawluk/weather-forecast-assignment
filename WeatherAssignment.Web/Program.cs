@@ -1,6 +1,7 @@
 using Hangfire;
 using WeatherAssignment.Application.Extensions;
 using WeatherAssignment.Infrastructure.Extensions;
+using WeatherAssignment.Web.Middleware;
 using WeatherAssignment.Web.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddInfrastructure();
 builder.Services.AddScoped<IStartupActions, StartupActions>();
 
 builder.Services.AddOpenApi();
+builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -21,6 +23,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI v1");
 });
 app.MapHangfireDashboard();
+app.UseMiddleware<CustomExceptionHandlingMiddleware>();
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();

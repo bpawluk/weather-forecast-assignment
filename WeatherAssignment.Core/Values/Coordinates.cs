@@ -1,4 +1,6 @@
-﻿namespace WeatherAssignment.Core.Values;
+﻿using WeatherAssignment.Core.Exceptions;
+
+namespace WeatherAssignment.Core.Values;
 
 public record Coordinates
 {
@@ -19,12 +21,12 @@ public record Coordinates
     {
         if (latitude < MinLatitude || latitude > MaxLatitude)
         {
-            throw new Exception($"Latitude must be between {MinLatitude} and {MaxLatitude} degrees.");
+            throw new ValidationException($"Latitude must be between {MinLatitude} and {MaxLatitude} degrees.");
         }
 
         if (longitude < MinLongitude || longitude > MaxLongitude)
         {
-            throw new Exception($"Longitude must be between {MinLongitude} and {MaxLongitude} degrees.");
+            throw new ValidationException($"Longitude must be between {MinLongitude} and {MaxLongitude} degrees.");
         }
 
         Latitude = Math.Round(latitude, Precision);

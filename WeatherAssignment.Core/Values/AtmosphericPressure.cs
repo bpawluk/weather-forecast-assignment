@@ -1,4 +1,6 @@
-﻿namespace WeatherAssignment.Core.Values;
+﻿using WeatherAssignment.Core.Exceptions;
+
+namespace WeatherAssignment.Core.Values;
 
 public record AtmosphericPressure
 {
@@ -10,7 +12,7 @@ public record AtmosphericPressure
     {
         if (value < 0)
         {
-            throw new Exception("Atmospheric Pressure cannot be negative.");
+            throw new ValidationException("Atmospheric Pressure cannot be negative.");
         }
         Value = value;
     }

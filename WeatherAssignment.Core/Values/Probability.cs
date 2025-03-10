@@ -1,4 +1,6 @@
-﻿namespace WeatherAssignment.Core.Values;
+﻿using WeatherAssignment.Core.Exceptions;
+
+namespace WeatherAssignment.Core.Values;
 
 public record Probability
 {
@@ -10,7 +12,7 @@ public record Probability
     {
         if (percentage < 0 || percentage > 100)
         {
-            throw new Exception("Probability must be between 0 and 100 percent.");
+            throw new ValidationException("Probability must be between 0 and 100 percent.");
         }
         Value = percentage;
     }
