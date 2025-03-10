@@ -13,6 +13,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddHttpClient();
+
         services.AddDbContext<WeatherDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork<WeatherDbContext>>();
         services.AddScoped<DatabaseSeeder>();
