@@ -7,9 +7,7 @@ using WeatherAssignment.Web.Controllers.Locations.Data;
 
 namespace WeatherAssignment.Web.Controllers.Locations;
 
-[ApiController]
-[Route("[controller]")]
-public class LocationsController(IMediator mediator) : AppController(mediator)
+public class LocationsController(IMediator mediator) : ApiController(mediator)
 {
     [HttpGet]
     [ProducesResponseType(typeof(LocationDto[]), 200)]

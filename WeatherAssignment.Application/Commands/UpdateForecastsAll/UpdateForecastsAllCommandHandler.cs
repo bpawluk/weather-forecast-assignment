@@ -9,6 +9,6 @@ internal class UpdateForecastsAllCommandHandler(IUnitOfWork unitOfWork) : IReque
 
     public Task Handle(UpdateForecastsAllCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

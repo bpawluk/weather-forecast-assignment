@@ -1,3 +1,4 @@
+using Hangfire;
 using WeatherAssignment.Application.Extensions;
 using WeatherAssignment.Infrastructure.Extensions;
 using WeatherAssignment.Web.Utils;
@@ -19,6 +20,7 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
     options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI v1");
 });
+app.MapHangfireDashboard();
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();

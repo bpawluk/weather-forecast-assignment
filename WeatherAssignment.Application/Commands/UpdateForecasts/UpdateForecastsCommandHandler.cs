@@ -10,6 +10,6 @@ internal class UpdateForecastsCommandHandler(IUnitOfWork unitOfWork, IWeatherPro
 
     public Task Handle(UpdateForecastsCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

@@ -5,9 +5,7 @@ using WeatherAssignment.Web.Controllers.Forecasts.Data;
 
 namespace WeatherAssignment.Web.Controllers.Forecasts;
 
-[ApiController]
-[Route("[controller]")]
-public class ForecastsController(IMediator mediator) : AppController(mediator)
+public class ForecastsController(IMediator mediator) : ApiController(mediator)
 {
     [HttpGet]
     [ProducesResponseType(typeof(ForecastDto), 200)]
