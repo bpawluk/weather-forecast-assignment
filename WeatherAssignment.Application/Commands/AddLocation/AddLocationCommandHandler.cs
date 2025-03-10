@@ -21,6 +21,6 @@ internal class AddLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
         var forecastToAdd = Forecast.Empty(locationToAdd);
         forecasts.Add(forecastToAdd);
 
-        await _unitOfWork.SaveChanges(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

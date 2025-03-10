@@ -12,7 +12,7 @@ internal class UnitOfWork<TDbContext>(TDbContext dbContext) : IUnitOfWork where 
         return _dbContext.Set<TEntity>();
     }
 
-    public Task SaveChanges(CancellationToken cancellationToken)
+    public Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         return _dbContext.SaveChangesAsync(cancellationToken);
     }

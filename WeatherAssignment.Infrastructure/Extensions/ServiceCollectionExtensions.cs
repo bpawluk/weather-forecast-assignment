@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<WeatherDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork<WeatherDbContext>>();
+        services.AddScoped<DatabaseSeeder>();
         return services;
     }
 }

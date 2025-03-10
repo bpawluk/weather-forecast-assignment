@@ -40,7 +40,6 @@ public class LocationsController(IMediator mediator) : AppController(mediator)
 
     [HttpDelete]
     [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
     public async Task<IActionResult> DeleteLocationAsync([FromQuery] decimal latitude, [FromQuery] decimal longitude)
     {
         var request = new DeleteLocationCommand(latitude, longitude);

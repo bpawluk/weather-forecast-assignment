@@ -24,6 +24,6 @@ internal class DeleteLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHa
             locations.Remove(location);
         }
 
-        await _unitOfWork.SaveChanges(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
