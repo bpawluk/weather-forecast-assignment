@@ -19,11 +19,12 @@ internal class DeleteLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHa
             x.Coordinates.Latitude == targetCoordinates.Latitude &&
             x.Coordinates.Longitude == targetCoordinates.Longitude, cancellationToken);
 
-        if (location is not null)
+        if (location is null)
         {
-            locations.Remove(location);
+            throw new Exception("NOT FOUND");
         }
 
+        locations.Remove(location);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

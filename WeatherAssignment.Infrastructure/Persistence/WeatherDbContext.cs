@@ -15,7 +15,10 @@ public class WeatherDbContext : DbContext
 
         modelBuilder.Entity<Location>(location =>
         {
-            location.OwnsOne(x => x.Coordinates);
+            location.OwnsOne(x => x.Coordinates, coordinates =>
+            {
+                coordinates.HasIndex(c => new { c.Latitude, c.Longitude }).IsUnique();
+            });
         });
 
         modelBuilder.Entity<Forecast>(forecast =>
@@ -25,7 +28,7 @@ public class WeatherDbContext : DbContext
                     .HasForeignKey("LocationId")
                     .OnDelete(DeleteBehavior.Cascade);
 
-            forecast.OwnsMany(x => x.Values, forecastValue => 
+            forecast.OwnsMany(x => x.Values, forecastValue =>
             {
                 forecastValue.WithOwner()
                              .HasForeignKey("ForecastId");
