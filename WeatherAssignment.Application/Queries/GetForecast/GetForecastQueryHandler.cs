@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeatherAssignment.Core;
+using WeatherAssignment.Core.Exceptions;
 using WeatherAssignment.Core.Interface;
 using WeatherAssignment.Core.Values;
 
@@ -21,7 +22,7 @@ internal class GetForecastQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler
 
         if (forecast is null)
         {
-            throw new Exception("NOT FOUND");
+            throw new EntityNotFoundException($"There is no Forecasts for a Location with Coordinates {targetCoordinates}.");
         }
 
         return new(new(

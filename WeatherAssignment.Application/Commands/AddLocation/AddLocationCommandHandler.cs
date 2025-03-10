@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeatherAssignment.Core;
+using WeatherAssignment.Core.Exceptions;
 using WeatherAssignment.Core.Interface;
 using WeatherAssignment.Core.Values;
 
@@ -21,7 +22,7 @@ internal class AddLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHandl
 
         if (location is not null)
         {
-            throw new Exception("ALREADY EXISTS");
+            throw new EntityAlreadyExistsException($"A Location with Coordinates {targetCoordinates} already exists.");
         }
 
         var locationToAdd = new Location(

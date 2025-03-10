@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeatherAssignment.Core;
+using WeatherAssignment.Core.Exceptions;
 using WeatherAssignment.Core.Interface;
 using WeatherAssignment.Core.Values;
 
@@ -21,7 +22,7 @@ internal class DeleteLocationCommandHandler(IUnitOfWork unitOfWork) : IRequestHa
 
         if (location is null)
         {
-            throw new Exception("NOT FOUND");
+            throw new EntityNotFoundException($"There is no Locations with Coordinates {targetCoordinates}.");
         }
 
         locations.Remove(location);
