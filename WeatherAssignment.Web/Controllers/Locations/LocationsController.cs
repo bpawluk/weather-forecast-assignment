@@ -10,7 +10,7 @@ namespace WeatherAssignment.Web.Controllers.Locations;
 public class LocationsController(IMediator mediator) : ApiController(mediator)
 {
     [HttpGet]
-    [ProducesResponseType(typeof(LocationDto[]), 200)]
+    [ProducesResponseType(typeof(LocationDto[]), 200, "application/json")]
     public async Task<ActionResult<LocationDto[]>> GetLocationsAsync()
     {
         var request = new GetLocationsQuery();
@@ -26,6 +26,8 @@ public class LocationsController(IMediator mediator) : ApiController(mediator)
 
     [HttpPost]
     [ProducesResponseType(201)]
+    [ProducesResponseType(typeof(ProblemDetails), 400, "application/json")]
+    [ProducesResponseType(typeof(ProblemDetails), 409, "application/json")]
     public async Task<IActionResult> AddLocationAsync([FromBody] LocationDto newLocation)
     {
         var request = new AddLocationCommand(
@@ -38,6 +40,8 @@ public class LocationsController(IMediator mediator) : ApiController(mediator)
 
     [HttpDelete]
     [ProducesResponseType(204)]
+    [ProducesResponseType(typeof(ProblemDetails), 400, "application/json")]
+    [ProducesResponseType(typeof(ProblemDetails), 404, "application/json")]
     public async Task<IActionResult> DeleteLocationAsync([FromQuery] decimal latitude, [FromQuery] decimal longitude)
     {
         var request = new DeleteLocationCommand(latitude, longitude);
