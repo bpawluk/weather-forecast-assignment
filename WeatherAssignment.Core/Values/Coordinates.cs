@@ -1,4 +1,5 @@
-﻿using WeatherAssignment.Core.Exceptions;
+﻿using System.Globalization;
+using WeatherAssignment.Core.Exceptions;
 
 namespace WeatherAssignment.Core.Values;
 
@@ -33,5 +34,5 @@ public record Coordinates
         Longitude = Math.Round(longitude, Precision);
     }
 
-    public override string ToString() => $"({Latitude}, {Longitude})";
+    public override string ToString() => $"({Latitude.ToString(CultureInfo.InvariantCulture)}, {Longitude.ToString(CultureInfo.InvariantCulture)})";
 }
