@@ -1,4 +1,11 @@
 # weather-forecast-assignment
+## Run
+```
+docker build -t weatherassignment:latest .
+```
+```
+docker run -p 80:8080 --name weather-api weatherassignment:latest
+```
 ## Summary
 ### Requirements
 - Build a simple RESTful API backed by any kind of database.
