@@ -12,6 +12,37 @@ internal class WeatherProvider(HttpClient httpClient) : IWeatherProvider
 
     public async Task<IReadOnlyDictionary<Coordinates, IReadOnlyList<ForecastValue>>> GetWeatherAsync(IReadOnlySet<Coordinates> locationsCoordinates, CancellationToken cancellationToken)
     {
+        if (locationsCoordinates.Count == 1)
+        {
+            return await GetWeatherForSingleLocationAsync(locationsCoordinates.Single(), cancellationToken);
+        }
+        else
+        {
+            return await GetWeatherForMultipleLocationsAsync(locationsCoordinates, cancellationToken);
+        }
+    }
+
+    private async Task<IReadOnlyDictionary<Coordinates, IReadOnlyList<ForecastValue>>> GetWeatherForSingleLocationAsync(Coordinates coordinates, CancellationToken cancellationToken)
+    {
+        var weatherData = new Dictionary<Coordinates, IReadOnlyList<ForecastValue>>();
+
+        var response = await _httpClient.GetFromJsonAsync<OpenMeteoResponse>(
+            $"https://api.open-meteo.com/v1/forecast" +
+            $"?latitude={coordinates.Latitude.ToString(CultureInfo.InvariantCulture)}" +
+            $"&longitude={coordinates.Longitude.ToString(CultureInfo.InvariantCulture)}" +
+            $"&hourly=temperature_2m,precipitation_probability,surface_pressure",
+            cancellationToken);
+
+        if (response != null)
+        {
+            weatherData.Add(coordinates, CreateForecastValues(response));
+        }
+
+        return weatherData;
+    }
+
+    private async Task<IReadOnlyDictionary<Coordinates, IReadOnlyList<ForecastValue>>> GetWeatherForMultipleLocationsAsync(IReadOnlySet<Coordinates> locationsCoordinates, CancellationToken cancellationToken)
+    {
         var weatherData = new Dictionary<Coordinates, IReadOnlyList<ForecastValue>>();
 
         var coordinates = locationsCoordinates.ToArray();
@@ -29,18 +60,21 @@ internal class WeatherProvider(HttpClient httpClient) : IWeatherProvider
         {
             for (int i = 0; i < responses.Length; i++)
             {
-                var response = responses[i];
-                var forecastValues = response.Hourly.Time
-                    .Select((time, index) => new ForecastValue(
-                        DateTimeOffset.Parse(time, null, DateTimeStyles.AssumeUniversal),
-                        response.Hourly.Temperature[index],
-                        response.Hourly.Precipitation[index],
-                        response.Hourly.Pressure[index]))
-                    .ToList();
-                weatherData.Add(coordinates[i], forecastValues);
+                weatherData.Add(coordinates[i], CreateForecastValues(responses[i]));
             }
         }
 
         return weatherData;
+    }
+
+    private static List<ForecastValue> CreateForecastValues(OpenMeteoResponse response)
+    {
+        return response.Hourly.Time
+            .Select((time, index) => new ForecastValue(
+                DateTimeOffset.Parse(time, null, DateTimeStyles.AssumeUniversal),
+                response.Hourly.Temperature[index],
+                response.Hourly.Precipitation[index],
+                response.Hourly.Pressure[index]))
+            .ToList();
     }
 }

@@ -29,9 +29,12 @@ internal class UpdateForecastsCommandHandler(IUnitOfWork unitOfWork, IWeatherPro
             if (forecast is not null)
             {
                 forecast.Update(newForecastValues);
+                try
+                {
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
+                catch (DbUpdateConcurrencyException) { }
             }
-        }
-
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        } 
     }
 }

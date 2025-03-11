@@ -44,6 +44,9 @@ public class WeatherDbContext : DbContext
                 forecastValue.Property(x => x.Pressure)
                              .HasConversion(pres => pres.Value, pres => new(pres));
             });
+
+            forecast.Property(x => x.Updated)
+                    .IsConcurrencyToken();
         });
     }
 

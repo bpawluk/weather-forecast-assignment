@@ -25,8 +25,8 @@ public class Forecast
 
     public void Update(IReadOnlyList<ForecastValue> values)
     {
-        Updated = DateTimeOffset.UtcNow;
         _values.Clear();
         _values.AddRange(values);
+        Updated = DateTimeOffset.UtcNow;
     }
 }
