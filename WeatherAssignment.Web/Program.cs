@@ -22,7 +22,12 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
     options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI v1");
 });
-app.MapHangfireDashboard();
+
+app.MapHangfireDashboard(new DashboardOptions()
+{
+    Authorization = []
+});
+
 app.UseMiddleware<CustomExceptionHandlingMiddleware>();
 app.MapControllers();
 
